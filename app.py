@@ -25,6 +25,15 @@ def draw_rect(x, y, width, height):
     glVertex2f(x, y + height)                          # top left point
     glEnd()
 
+def draw_circle(x_c,y_c,radius,points):
+    glBegin(GL_POLYGON)
+    vertices = np.linspace(0,1,num=points)
+    y = (radius * np.sin(2*np.pi*vertices)) + x_c
+    x = (radius * np.cos(2*np.pi*vertices)) + y_c
+    for x_,y_ in zip(x,y):
+        glVertex2f(x_,y_)
+    glEnd()
+
 def draw():                                            # ondraw is called all the time
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # clear the screen
     glLoadIdentity()                                   # reset position
@@ -45,7 +54,8 @@ def draw():                                            # ondraw is called all th
 
     glTranslate(x_pos,y_pos,0)
     #glRotate(x_pos,0,0,1)
-    draw_rect(0,0,x_sz,y_sz)
+    #draw_rect(0,0,x_sz,y_sz)
+    draw_circle(0+1,0+1,10,50)
     #glTranslatef(5,5,5)
     x_pos += x_inc
     y_pos += y_inc
