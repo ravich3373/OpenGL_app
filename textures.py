@@ -7,6 +7,23 @@ from OpenGL.GLU import *
 import numpy as np
 import matplotlib.pyplot as plt
 
+def draw_rect(x, y, width, height):
+    glBegin(GL_QUADS)                                  # start drawing a rectangle
+    glVertex2f(x, y)                                   # bottom left point
+    glVertex2f(x + width, y)                           # bottom right point
+    glVertex2f(x + width, y + height)                  # top right point
+    glVertex2f(x, y + height)                          # top left point
+    glEnd()
+
+def refresh2d(width, height):
+    glViewport(0, 0, width, height)
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+    glOrtho(0.0, width, 0.0, height, 0.0, 1.0)
+    glMatrixMode (GL_MODELVIEW)
+    glLoadIdentity()
+
+
 #Settings
 width = 852
 height = 480
@@ -73,6 +90,8 @@ glVertex2f(width,0)
 
 glEnd()
 glFlush()
+refresh2d(width,height)
+draw_rect(0,0,50,50)
 
 #game loop until exit
 gameExit = False
