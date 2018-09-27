@@ -5,16 +5,26 @@ import gc
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
+
 
 #print("how to make VIP evaluation app?")
 
 window = 0                                             # glut window number
 width, height = 852, 480                               # window size
 resolution = (width,height)
-x_pos,y_pos,x_inc,y_inc = 10,10,1,1
+x_pos,y_pos,x_inc,y_inc = 426,240,0.5,0.5
 texture_data = plt.imread('pics/1.jpg')
 print(texture_data.shape)
 print(type(texture_data))
+
+def update_pos():
+    global x_pos,y_pos
+    with open('shared.pkl', 'rb') as handle:
+        shared = pickle.load(handle)
+    if shared["update"]:
+        x_pos += x_inc
+        y_pos += y_inc
 
 def refresh2d(width, height):
     glViewport(0, 0, width, height)
@@ -83,7 +93,7 @@ def draw():                                            # ondraw is called all th
     
     # ToDo draw rectangle
     global x_pos,y_pos,x_inc,y_inc
-    x_sz,y_sz = 25,25
+    x_sz,y_sz = 50,30
     if(x_pos > width-x_sz):
         x_inc = -1 * x_inc
     if(x_pos < 0):
@@ -98,13 +108,13 @@ def draw():                                            # ondraw is called all th
 
     glTranslate(x_pos,y_pos,0)
     #glRotate(x_pos,0,0,1)
-    glColor3f(0,0,1)
+    glColor3f(0,0,0)
     draw_rect(0,0,x_sz,y_sz)
 
     #draw_circle(0+1,0+1,0,50)
     #glTranslatef(5,5,5)
-    x_pos += x_inc
-    y_pos += y_inc
+
+    update_pos()
     glutSwapBuffers()                                  # important for double buffering
     
 
